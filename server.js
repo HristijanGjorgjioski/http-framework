@@ -1,4 +1,6 @@
 const net = require("net");
+const fs = require("fs");
+const path = require("path");
 
 function parseHttpRequest(data) {
   const [headerPart, body] = data.split("\r\n\r\n");
@@ -54,6 +56,27 @@ const routes = {
   },
   "/create-file": (req) => {
     if (req.method === "POST") {
+      const body = JSON.parse(req.body);
+      const { fileName, content } = body;
+
+      if (!fileName || typeof fileName !== "string") {
+        return createHttpResponse(
+          400,
+          "Bad Request",
+          { "Content-Type": "application/json" },
+          JSON.stringify({ error: "Invalid fileName" })
+        );
+      }
+
+      const safeFileName = path.basename(fileName);
+      const filePath = path.join(__dirname, "files", safeFileName);
+
+      if (!fs.existsSync(path.dirname(filePath))) {
+        fs.mkdirSync(path.dirname(filePath), { recursive: true });
+      }
+
+      fs.writeFileSync(filePath, content || "");
+
       return createHttpResponse(
         201,
         "Created",

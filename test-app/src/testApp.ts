@@ -1,9 +1,9 @@
-import { Server } from "http-framework";
+import { Server } from "kiko-js";
 
 const server = new Server();
 
 server.get("/me", (req, res) => {
-  res.send("I am Kiko");
+  res.send("I am Kik1o");
 });
 
 server.listen(2002, () => {

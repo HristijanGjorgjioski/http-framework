@@ -1,4 +1,4 @@
-import { HttpMethod, Request } from "..";
+import { HttpMethod, Request } from "../types/index";
 
 export const parseHttpRequest = (data: string): Request => {
   const [headerPart, body] = data.split("\r\n\r\n");

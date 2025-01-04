@@ -1,0 +1,28 @@
+{
+  "name": "kiko-js",
+  "version": "1.0.0",
+  "main": "./dist/kiko.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "webpack",
+    "start": "node dist/bundle.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/kiko.js",
+      "require": "./dist/kiko.cjs",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
+  }
+}

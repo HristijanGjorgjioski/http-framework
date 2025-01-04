@@ -4,7 +4,6 @@
   "main": "testApp.js",
   "type": "module",
   "dependencies": {
-    "http-framework": "^1.0.0",
     "node": "^23.5.0",
     "ts-node": "^10.9.2"
   },

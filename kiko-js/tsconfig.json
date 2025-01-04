@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // ES2020 ensures modern syntax support.
+    "module": "ESNext", // Use ESNext for ESM output.
+    "outDir": "./dist", // Compiled JS output.
+    "rootDir": "./src", // Source TS files.
+    "esModuleInterop": true, // Interoperability with CommonJS.
+    "moduleResolution": "node", // Resolves Node.js-style imports.
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "declaration": true, // Generate type declaration files.
+    "declarationDir": "./dist" // Output for `.d.ts` files.
+  },
+  "include": ["src/**/*.ts"]
+}

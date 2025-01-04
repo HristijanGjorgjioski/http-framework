@@ -10,12 +10,13 @@ export type Request = {
   method: HttpMethod;
   path: string;
   headers: Headers;
-  body: string;
+  body: string | Record<string, string>;
+  parsedBody: string;
   query: Record<string, string>;
 };
 
 export type Response = {
-  send: (body: string) => void;
+  send: (body: string | Record<string, string>) => void;
   status: (code: number) => { json: (body: any) => void };
 };
 

@@ -1,8 +1,8 @@
 {
   "name": "kiko-js",
   "version": "1.0.0",
-  "main": "./dist/kiko.js",
-  "types": "./dist/types/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -13,9 +13,9 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/kiko.js",
-      "require": "./dist/kiko.cjs",
-      "types": "./dist/types/index.d.ts"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     }
   },
   "devDependencies": {

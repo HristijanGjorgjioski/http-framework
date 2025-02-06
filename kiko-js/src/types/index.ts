@@ -16,7 +16,7 @@ export type Request = {
 };
 
 export type Response = {
-  send: (body: string | Record<string, string>) => void;
+  send: (body: string | Record<string, any>) => void;
   status: (code: number) => { json: (body: any) => void };
 };
 

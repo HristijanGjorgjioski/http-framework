@@ -22,6 +22,7 @@ export const parseHttpRequest = (data: string): Request => {
     path,
     headers,
     body: body || "",
+    parsedBody: body.toString() || "",
     query,
   };
 };

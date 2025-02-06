@@ -24,10 +24,18 @@ export class Server {
 
   public listen(port: number, callback: () => void) {
     const server = net.createServer((socket) => {
-      socket.on("data", (data) => {
-        const request = parseHttpRequest(data.toString());
+      let dataBuffer = "";
+
+      socket.on("data", (chunk) => {
+        dataBuffer += chunk.toString();
+      });
+
+      socket.on("end", () => {
+        const request = parseHttpRequest(dataBuffer.toString());
 
         let parsedBody: string;
+
+        request.body = request.body || "";
 
         if (request.headers["Content-Type"] === "application/json") {
           try {
@@ -41,8 +49,10 @@ export class Server {
           request.headers["Content-Type"] ===
           "application/x-www-form-urlencoded"
         ) {
-          request.body = parseFormData(request.body as string);
-          parsedBody = JSON.stringify(request.body);
+          request.body = request.body
+            ? parseFormData(request.body as string)
+            : {};
+          parsedBody = request.body ? JSON.stringify(request.body) : "{}";
         } else {
           parsedBody = request.body as string;
         }
@@ -63,8 +73,29 @@ export class Server {
         }
 
         const res: Response = {
-          send: (body: string) =>
-            socket.end(createHttpResponse(200, "OK", {}, body)),
+          send: (body: any) => {
+            let responseBody: string;
+
+            // Determine the response type
+            if (typeof body === "object") {
+              responseBody = JSON.stringify(body); // Serialize object to JSON
+              socket.end(
+                createHttpResponse(
+                  200,
+                  "OK",
+                  { "Content-Type": "application/json" },
+                  responseBody
+                )
+              );
+            } else if (typeof body === "string") {
+              responseBody = body; // Use string as-is
+              socket.end(createHttpResponse(200, "OK", {}, responseBody));
+            } else {
+              // Handle other types gracefully
+              responseBody = String(body);
+              socket.end(createHttpResponse(200, "OK", {}, responseBody));
+            }
+          },
           status: (code: number) => ({
             json: (body: any) =>
               socket.end(
@@ -83,7 +114,7 @@ export class Server {
         } catch (error) {
           const errorResponse = createHttpResponse(
             500,
-            "Internal Server Error",
+            error?.message,
             { "Content-Type": "text/plain" },
             "Something went wrong!"
           );

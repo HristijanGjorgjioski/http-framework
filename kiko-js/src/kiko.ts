@@ -69,6 +69,7 @@ export class Server {
           );
           socket.write(response);
           socket.end();
+          console.log("REMOVE THIS LOG BEFORE OPENING PR");
           return;
         }
 
